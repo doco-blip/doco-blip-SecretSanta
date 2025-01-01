@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Jar</title>
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Patrick Hand', cursive;
+            text-align: center;
+            background-image: url('https://t3.ftcdn.net/jpg/07/98/19/02/360_F_798190274_6VJG4eKmXlvtemnEYsmQOUHfhoF8dNbR.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* For falling animations */
+        }
+        h1 {
+            margin-top: 20px;
+            color: #FFD700; /* Soft yellow for contrast */
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7); /* Adds depth */
+        }
+        .jar {
+            width: 300px;
+            height: 400px;
+            margin: 20px auto;
+            background: url('https://i.pinimg.com/564x/0a/77/e8/0a77e801189c838611d0e60e57e1b895.jpg') no-repeat center;
+            background-size: cover;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+        }
+        .note {
+            background-color: #fff8dc;
+            border: 1px solid #d3ad69;
+            border-radius: 10px;
+            padding: 15px;
+            margin: 10px;
+            font-size: 16px;
+            line-height: 1.6;
+            box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.2);
+            display: none;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            animation-fill-mode: forwards; /* Ensures final state persists */
+        }
+
+        @keyframes fadeIn {
+            0% {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            100% {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+        button {
+            background-color: #4B0082;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #9370DB;
+            transform: scale(1.1);
+        }
+        /* Falling Stars */
+        .falling-star {
+            position: absolute;
+            top: -10px;
+            width: 10px;
+            height: 10px;
+            background-color: #ffcccb;
+            border-radius: 50%;
+            animation: fall 3s linear infinite;
+        }
+        @keyframes fall {
+            0% {
+                transform: translateY(-10px) scale(0.8);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) scale(1.2);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Happy New Year Elena ♡!!</h1>
+    <div class="jar">
+        <div class="note" id="memoryDisplay">Click "Pull a Note" to reveal one!</div>
+    </div>
+    <button onclick="pullMemory()">Pull a Note</button>
+
+    <script>
+        const allowedPassword = "SecretSantaSurprise";
+        const checkPassword = () => {
+            const inputPassword = prompt("Enter the password:");
+            if (inputPassword !== allowedPassword) {
+                alert("Incorrect password. Access denied.");
+                window.location.href = "about:blank";
+            }
+        };
+    window.onload = checkPassword;
+        // Pre-filled array of memories
+        const memories = [
+            "You have this incredible talent for seeing possibilities where others see obstacles, your tenacity is truly inspiring",
+            "You live so authentically, and it's one of the most beautiful things about you. It reminds me to live life unapologetically too",
+            "I hope you always know how deeply you’re loved, how much you’re appreciated, and how lucky our lives are to have you in it",
+            "If you look to the stars tonight we'll be looking at the same sky",
+            "If the world was ending, I wouldn't want to be anywhere but by your side, laughing at the chaos and feeling safe in your presence",
+            "Life is better with you in it—plain and simple. Thank you for being the incredible, one-of-a-kind person you are",
+            "You don’t just dream big—you act big. Watching you make things happen is like witnessing magic in real life",
+            "If you decide to chase the stars, I’ll be running right beside you",
+	    "I’d follow you to the ends of the earth if it meant I could keep supporting and loving you. You’re worth everything and more",
+	    "Every time I think I can’t love you more, you prove me wrong",
+	    "You make everything feel right, even when it’s not. You’re my compass and my comfort",
+	    "I’m endlessly proud of you—not just for what you do, but for who you are",
+	    "You’ve taught me that love isn’t about perfection; it’s about persistence, patience, and showing up even when it’s hard. Thank you for showing up for me.",
+	    "Your mission, should you choose to accept it: Send me a random thing that made you laugh today",
+	    "At some point today, work the phrase ‘bananas are elite’ into a conversation. I dare you.",
+            "BLINK!! you've been using devices a lot!",
+            "Have you hydrated? if you haven't, drink some water! (and remind me too...)",
+            "QUICK!!! look at the wall. im there lol hi",
+            "What's the most impressive stretch you can do? Can I see could I do it too :O?",
+            "Just checking in—are you doing okay? Let me know if you need anything, even if it’s just a random meme :>",
+            "Did you remember to breathe today? Like, really breathe? If not, pause for a sec and do it now. I’ll do it with you hmu :D!!",
+            "Hope you’re not drowning in work. If you are, remember: you are a mermaid with laser eyes. you can do this..",
+            "You don’t have to have everything figured out today. You can take one step at a time",
+            "DRINK WATER NOW OR IM GONNA PISS ON THE MOON!!!!! -julia",
+            "i like to dream about our futures a lot, how much of the world do you think we'll have traveled together by the time we're 50?",
+            "I love you ♡",
+            "I hope you realize how much you’ve changed my life, just by being in it. I see the world differently because of you.",
+            "Do you have a photo or memory that makes you happy? how abt finding it and reliving it for a moment :)?",
+            "We should start a bucket list together :O!! Whenever u see this, text me an idea of smth we could add to it :]",
+            "I love your art !! I actually want to pick up painting again bc of you, you sent me so many impressive pieces that make me wanna try again!",
+            "Have you listened to a song you like today? If you have, which one? I'd love to listen :D!!",
+            "Imagine we had a free day together. Where would you take us? Dream big—I’m ready >:D",
+            "Pick a random word today and use it in as many ways as possible. Tell me what you picked—I’ll play along too !!",
+            "Pick a color you can see rn, can u text me the first thing it reminds you of :D?",
+            "Send me a random fun fact you know !!",
+            "you found a secret bleep blorp note!! Bleep Blorp says hi :)",
+            "Trust me: https://matias.me/nsfw/",
+            "Look at the nearest random object. It can now speak (huzzah), what's it telling you??",
+            "*tips comically large hat* you're purdy :>"
+        ];
+
+        // Shuffle the memories array
+        let shuffledMemories = shuffleArray([...memories]);
+        let currentIndex = 0;
+
+        // Function to shuffle the array
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+            return array;
+        }
+
+        const memoryDisplay = document.getElementById('memoryDisplay');
+
+        function pullMemory() {
+            if (currentIndex < shuffledMemories.length) {
+                const memory = shuffledMemories[currentIndex];
+                memoryDisplay.textContent = memory;
+
+                // Reset the animation
+                memoryDisplay.style.display = 'none'; // Hide to reset animation
+                void memoryDisplay.offsetWidth; // Trigger reflow
+                memoryDisplay.style.display = 'block'; // Show and animate
+                memoryDisplay.style.animation = 'fadeIn 0.5s ease-in-out forwards';
+
+                currentIndex++;
+            } else {
+                memoryDisplay.textContent = "Oops, the jar is empty! Check your email for more surprises :)";
+                memoryDisplay.style.display = 'block';
+                currentIndex = 0; 
+                shuffledMemories = shuffleArray([...memories]); 
+            }
+        }
+
+
+        setInterval(() => {
+            const star = document.createElement('div');
+            star.classList.add('falling-star');
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.animationDuration = Math.random() * 2 + 3 + 's';
+            document.body.appendChild(star);
+            setTimeout(() => star.remove(), 5000);
+        }, 500);
+    </script>
+</body>
+</html>
